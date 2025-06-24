@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky",
-    "pre-commit": "prettier . --write && npm run lint --fix"
+    "pre-commit": "prettier . --write && npm run lint src/**/* --fix"
   },
   "dependencies": {
     "next": "15.3.3",
@@ -24,6 +24,7 @@
     "daisyui": "^5.0.43",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
+    "eslint-config-prettier": "^10.1.5",
     "husky": "^9.1.7",
     "prettier": "^3.5.3",
     "tailwindcss": "^4",
