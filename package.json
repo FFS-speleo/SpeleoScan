@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky",
-    "pre-commit": "prettier . --write && npm run lint src/**/* --fix"
+    "pre-commit": "prettier . --write && npm run lint --fix"
   },
   "dependencies": {
     "next": "15.3.3",
