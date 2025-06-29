@@ -2,12 +2,12 @@
 import { fetchRessources } from "@/api";
 
 export default async function Page() {
-  const ressources = await fetchRessources();
+  const { resources } = await fetchRessources();
 
   return (
-    ressources && (
+    resources && (
       <div className="flex flex-col h-full justify-center items-center p-4">
-        {ressources.map((r) => (
+        {resources.map((r) => (
           <div key={r.id}>{r.title}</div>
         ))}
       </div>

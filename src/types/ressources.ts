@@ -20,7 +20,7 @@ export type GithubResponse = {
 export type Ressource = {
   id: string;
   title: string;
-  description: string;
-  page: number;
+  description?: string;
+  page?: number;
   url: string;
 };

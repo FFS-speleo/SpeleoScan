@@ -1,17 +1,19 @@
 import { base64ToUtf8 } from "@/lib";
 import { GithubResponse, Ressource } from "@/types";
 
-export async function fetchRessources(): Promise<Ressource[]> {
+export async function fetchRessources(): Promise<
+  Partial<GithubResponse> & { resources: Ressource[] }
+> {
   const {
     GITHUB_API_URL: baseUrl,
     GITHUB_REPO_OWNER: owner,
     GITHUB_REPO_DATABASE_NAME: repoName,
-    GITHUB_RESSOURCES_PATH: ressourcesPath,
+    GITHUB_RESOURCES_PATH: resourcesPath,
     GITHUB_API_TOKEN: token,
   } = process.env;
 
   const res = await fetch(
-    `${baseUrl}/repos/${owner}/${repoName}/contents/${ressourcesPath}`,
+    `${baseUrl}/repos/${owner}/${repoName}/contents/${resourcesPath}`,
     {
       headers: {
         Accept: "application/vnd.github+json",
@@ -30,5 +32,8 @@ export async function fetchRessources(): Promise<Ressource[]> {
     throw new Error("No content");
   }
 
-  return JSON.parse(base64ToUtf8(data.content)) as Ressource[];
+  return {
+    ...data,
+    resources: JSON.parse(base64ToUtf8(data.content)) as Ressource[],
+  } as Partial<GithubResponse> & { resources: Ressource[] };
 }
