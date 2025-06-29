@@ -36,7 +36,7 @@ const LoginFormMolecule: React.FC = () => {
       router.push("/admin/dashboard");
     } catch (e) {
       Toastify({
-        text: e.message,
+        text: e?.message,
         duration: 3000,
         style: { background: "#ff000d" },
       }).showToast();
