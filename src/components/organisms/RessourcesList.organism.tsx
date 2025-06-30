@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { SearchInputAtom } from "@/atoms";
 import { RessourceCardMolecule } from "@/molecules";
 import { Ressource } from "@/types";
@@ -110,7 +110,8 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
                   </span>
                 </div>
                 <span className="text-sm text-base-content/60">
-                  {selectedFields.length}/4 sélectionnés
+                  {selectedFields.length}/$
+                  {Object.keys(searchFieldLabels).length} sélectionnés
                 </span>
               </div>
 

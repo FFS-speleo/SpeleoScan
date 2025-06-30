@@ -16,7 +16,7 @@ interface RessourcesTableProps {
 const RessourcesTable: React.FC<RessourcesTableProps> = ({
   ressources: initialRessources,
 }) => {
-  const [ressources] = useState<Ressource[]>(initialRessources);
+  const [resources, setResources] = useState<Ressource[]>(initialRessources);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingRessource, setEditingRessource] = useState<Ressource | null>(
     null,
@@ -56,6 +56,11 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({
           gravity: "top",
           position: "right",
         }).showToast();
+
+        const temp = [...resources];
+        const index = resources.findIndex((r) => r.id === editingRessource.id);
+        temp[index] = { id: editingRessource.id, ...ressourceData };
+        setResources(temp);
       } else {
         // Mode création
         response = await createRessource(ressourceData);
@@ -66,6 +71,7 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({
           gravity: "top",
           position: "right",
         }).showToast();
+        setResources([...resources, ressourceData]);
       }
     } catch (error) {
       const errorMessage =
@@ -96,11 +102,17 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({
       const response = await deleteRessource(ressourceToDelete.id);
       Toastify({
         text: response.message || "Ressource supprimée avec succès",
-        backgroundColor: "#10b981",
+        style: { background: "#10b981" },
         close: true,
         gravity: "top",
         position: "right",
       }).showToast();
+      const temp = [...resources];
+      temp.splice(
+        temp.findIndex((u) => u.id === ressourceToDelete.id),
+        1,
+      );
+      setResources([...temp]);
     } catch (error) {
       const errorMessage =
         error instanceof Error
@@ -108,7 +120,7 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({
           : "Erreur lors de la suppression";
       Toastify({
         text: errorMessage,
-        backgroundColor: "#ef4444",
+        style: { background: "#ef4444" },
         close: true,
         gravity: "top",
         position: "right",
@@ -153,8 +165,8 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({
                 </tr>
               </thead>
               <tbody>
-                {ressources.map((ressource) => (
-                  <tr key={ressource.id}>
+                {resources.map((ressource, i) => (
+                  <tr key={i}>
                     <td className="font-medium">{ressource.title}</td>
                     <td className="max-w-xs truncate">
                       {ressource.description}

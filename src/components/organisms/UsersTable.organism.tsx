@@ -14,7 +14,7 @@ interface UsersTableProps {
 }
 
 const UsersTable: React.FC<UsersTableProps> = ({ users: initialUsers }) => {
-  const [users] = useState<User[]>(initialUsers);
+  const [users, setUsers] = useState<User[]>(initialUsers);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -37,23 +37,26 @@ const UsersTable: React.FC<UsersTableProps> = ({ users: initialUsers }) => {
       const response = await createUser(userData);
       Toastify({
         text: response.message || "Utilisateur créé avec succès",
-        backgroundColor: "#10b981",
         close: true,
         gravity: "top",
         position: "right",
+        style: {
+          background: "#10b981",
+        },
       }).showToast();
 
-      // Rafraîchir la page pour obtenir les données mises à jour
-      window.location.reload();
+      setUsers([...users, userData]);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Erreur lors de la création";
       Toastify({
         text: errorMessage,
-        backgroundColor: "#ef4444",
         close: true,
         gravity: "top",
         position: "right",
+        style: {
+          background: "#ef4444",
+        },
       }).showToast();
     } finally {
       setIsLoading(false);
@@ -79,6 +82,12 @@ const UsersTable: React.FC<UsersTableProps> = ({ users: initialUsers }) => {
         gravity: "top",
         position: "right",
       }).showToast();
+      const temp = [...users];
+      temp.splice(
+        temp.findIndex((u) => u.id === userToDelete.id),
+        1,
+      );
+      setUsers([...temp]);
     } catch (error) {
       const errorMessage =
         error instanceof Error
@@ -86,7 +95,7 @@ const UsersTable: React.FC<UsersTableProps> = ({ users: initialUsers }) => {
           : "Erreur lors de la suppression";
       Toastify({
         text: errorMessage,
-        backgroundColor: "#ef4444",
+        style: { background: "#ef4444" },
         close: true,
         gravity: "top",
         position: "right",
@@ -128,8 +137,8 @@ const UsersTable: React.FC<UsersTableProps> = ({ users: initialUsers }) => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
-                  <tr key={user.id}>
+                {users.map((user, i) => (
+                  <tr key={i}>
                     <td>{user.email}</td>
                     <td>
                       <div className="flex space-x-2">
