@@ -1,4 +1,4 @@
-import { Ressource } from "@/types";
+import { Ressource, User } from "@/types";
 
 export const isResource = (body: unknown): body is Ressource => {
   return (
@@ -6,5 +6,14 @@ export const isResource = (body: unknown): body is Ressource => {
     body !== null &&
     "title" in body &&
     "url" in body
+  );
+};
+
+export const isUser = (body: unknown): body is User => {
+  return (
+    typeof body === "object" &&
+    body !== null &&
+    "email" in body &&
+    "password" in body
   );
 };
