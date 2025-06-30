@@ -16,7 +16,10 @@ export const protectAPIRoute = async (userJWT: string, users: User[]) => {
   }
 };
 
-export const validateBody = <T>(body: unknown, validator: (body: unknown) => body is T): body is T => {
+export const validateBody = <T>(
+  body: unknown,
+  validator: (body: unknown) => body is T,
+): body is T => {
   return validator(body);
 };
 

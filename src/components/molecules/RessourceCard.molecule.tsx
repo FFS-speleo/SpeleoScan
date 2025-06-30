@@ -21,11 +21,13 @@ const RessourceCard: React.FC<RessourceCardProps> = ({ ressource }) => (
               <h3 className="card-title text-lg font-bold text-base-content">
                 {ressource.title}
               </h3>
-              {ressource.page && (
-                <div className="badge badge-secondary badge-sm">
-                  Page {ressource.page}
-                </div>
-              )}
+              <div className="flex gap-2 mt-1">
+                {ressource.page && (
+                  <div className="badge badge-secondary badge-sm">
+                    Page {ressource.page}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 

@@ -4,21 +4,66 @@ import { useState, useMemo } from "react";
 import { SearchInputAtom } from "@/atoms";
 import { RessourceCardMolecule } from "@/molecules";
 import { Ressource } from "@/types";
-import { Search, BookOpen } from "lucide-react";
+import { Search, BookOpen, Filter } from "lucide-react";
 
 interface RessourcesListProps {
   ressources: Ressource[];
 }
 
+type SearchField = "titre" | "page" | "description" | "id";
+
+const searchFieldLabels: Record<SearchField, string> = {
+  titre: "Titre",
+  page: "Page",
+  description: "Description",
+  id: "ID",
+};
+
 const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFields, setSelectedFields] = useState<SearchField[]>(["titre", "page", "description", "id"]);
 
   const filteredRessources = useMemo(() => {
     if (!searchTerm.trim()) return ressources;
 
     const term = searchTerm.toLowerCase();
-    return ressources.filter((ressource) => ressource.title.toLowerCase().includes(term) || ressource.page?.toString().includes(term) || ressource.description?.toLowerCase().includes(term));
-  }, [ressources, searchTerm]);
+    return ressources.filter((ressource) => {
+      const searchResults = [];
+
+      if (selectedFields.includes("titre")) {
+        searchResults.push(ressource.title.toLowerCase().includes(term));
+      }
+
+      if (selectedFields.includes("page")) {
+        searchResults.push(ressource.page?.toString().includes(term) || false);
+      }
+
+      if (selectedFields.includes("description")) {
+        searchResults.push(ressource.description?.toLowerCase().includes(term) || false);
+      }
+
+      if (selectedFields.includes("id")) {
+        searchResults.push(ressource.id.toLowerCase() === term || ressource.id.toLowerCase().includes(term));
+      }
+
+      return searchResults.some(Boolean);
+    });
+  }, [ressources, searchTerm, selectedFields]);
+
+  const handleFieldToggle = (field: SearchField) => {
+    setSelectedFields((prev) => (prev.includes(field) ? prev.filter((f) => f !== field) : [...prev, field]));
+  };
+
+  const getPlaceholderText = () => {
+    if (selectedFields.length === 0) return "Sélectionnez au moins un champ de recherche";
+    const fields = selectedFields.map((field) => searchFieldLabels[field]).join(", ");
+    return `Rechercher dans : ${fields}`;
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm("");
+    setSelectedFields(["titre", "page", "description", "id"]);
+  };
 
   return (
     <div className="space-y-8">
@@ -34,8 +79,31 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
           </div>
         </div>
 
-        <div className="max-w-2xl mx-auto">
-          <SearchInputAtom value={searchTerm} onChange={setSearchTerm} placeholder="Rechercher par titre, page ou description..." className="input-lg" />
+        <div className="max-w-4xl mx-auto space-y-4">
+          {/* Sélecteur de champs */}
+          <div className="card bg-base-100 shadow-sm">
+            <div className="card-body py-4">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <Filter className="h-5 w-5 text-primary" />
+                  <span className="font-medium text-base-content">Champs de recherche :</span>
+                </div>
+                <span className="text-sm text-base-content/60">{selectedFields.length}/4 sélectionnés</span>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {(Object.keys(searchFieldLabels) as SearchField[]).map((field) => (
+                  <label key={field} className="cursor-pointer">
+                    <input type="checkbox" className="checkbox checkbox-primary checkbox-sm mr-2" checked={selectedFields.includes(field)} onChange={() => handleFieldToggle(field)} />
+                    <span className="text-sm">{searchFieldLabels[field]}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Barre de recherche */}
+          <SearchInputAtom value={searchTerm} onChange={setSearchTerm} placeholder={getPlaceholderText()} className="input-lg" />
         </div>
       </div>
 
@@ -75,7 +143,7 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
           <h3 className="text-xl font-semibold text-base-content mb-2">Aucune ressource trouvée</h3>
           <p className="text-base-content/70">{searchTerm ? `Aucun résultat pour "${searchTerm}". Essayez avec d'autres mots-clés.` : "Aucune ressource disponible pour le moment."}</p>
           {searchTerm && (
-            <button onClick={() => setSearchTerm("")} className="btn btn-primary btn-sm mt-4">
+            <button onClick={handleClearSearch} className="btn btn-primary btn-sm mt-4">
               Effacer la recherche
             </button>
           )}
