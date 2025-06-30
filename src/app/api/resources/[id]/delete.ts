@@ -1,27 +1,14 @@
-import { fetchRessources, fetchUsers } from "@/api";
-import { protectAPIRoute, validateBody, isResource } from "@/lib";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import GithubClient from "@/lib/GithubClient";
+import { fetchRessources, fetchUsers } from "@/api";
+import { protectAPIRoute } from "@/lib";
 
-const POST = async (request: Request) => {
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json(
-      { message: "Invalid or missing JSON body" },
-      { status: 400 },
-    );
-  }
-
-  if (!validateBody(body, isResource)) {
-    return NextResponse.json({ message: "Invalid body" }, { status: 400 });
-  }
-
-  body.id = crypto.randomUUID();
-
+const DELETE = async (
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) => {
+  const { id: resourceId } = await params;
   const { GITHUB_RESOURCES_PATH: resourcesPath } = process.env;
-
   const { users } = await fetchUsers();
   const userJWT = request.headers.get("Authorization");
 
@@ -33,23 +20,30 @@ const POST = async (request: Request) => {
 
   // eslint-disable-next-line prefer-const
   let { resources, sha } = await fetchRessources();
+  const resourceToChangeIndex = resources.findIndex(
+    (resource) => resource.id === resourceId,
+  );
+  if (resourceToChangeIndex === -1) {
+    return NextResponse.json(
+      { message: "Ressource introuvable" },
+      { status: 404 },
+    );
+  }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-  Array.isArray(resources) ? resources.push(body) : (resources = [body]);
+  resources.splice(resourceToChangeIndex, 1);
 
   const client = new GithubClient();
   try {
     const data = await client.applyChange(
       resourcesPath,
       resources,
-      `${user.email} added a new resource `,
+      `${user.email} deleted resource id: ${resourceId}`,
       sha,
     );
-
     return NextResponse.json(
       {
         data,
-        message: `Ressource créé avec succès`,
+        message: `Ressource ${resourceId} supprimé avec succès`,
       },
       { status: 200 },
     );
@@ -63,4 +57,4 @@ const POST = async (request: Request) => {
   }
 };
 
-export default POST;
+export default DELETE;

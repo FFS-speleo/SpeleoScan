@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isResource, protectAPIRoute, utf8ToBase64, validateBody } from "@/lib";
+import { isResource, protectAPIRoute, validateBody } from "@/lib";
 import { fetchRessources, fetchUsers } from "@/api";
+import GithubClient from "@/lib/GithubClient";
 
 const PUT = async (
   request: NextRequest,
@@ -21,13 +22,7 @@ const PUT = async (
   }
   const { id: resourceId } = await params;
 
-  const {
-    GITHUB_API_URL: baseUrl,
-    GITHUB_REPO_OWNER: owner,
-    GITHUB_REPO_DATABASE_NAME: repoName,
-    GITHUB_RESOURCES_PATH: resourcesPath,
-    GITHUB_API_TOKEN: token,
-  } = process.env;
+  const { GITHUB_RESOURCES_PATH: resourcesPath } = process.env;
 
   const { users } = await fetchUsers();
   const userJWT = request.headers.get("Authorization");
@@ -54,26 +49,29 @@ const PUT = async (
     ...body,
   };
 
-  const res = await fetch(
-    `${baseUrl}/repos/${owner}/${repoName}/contents/${resourcesPath}`,
-    {
-      method: "PUT",
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+  const client = new GithubClient();
+  try {
+    const data = await client.applyChange(
+      resourcesPath,
+      resources,
+      `${user.email} edited resource id: ${resourceId}`,
+      sha,
+    );
+    return NextResponse.json(
+      {
+        data,
+        message: `Ressource ${resourceId} modifié avec succès`,
       },
-      body: JSON.stringify({
-        content: utf8ToBase64(JSON.stringify(resources)),
-        message: `${user.email} edited resource id: ${resourceId}`,
-        sha: sha,
-      }),
-    },
-  );
-
-  const data = await res.json();
-
-  return NextResponse.json(data);
+      { status: 200 },
+    );
+  } catch (error) {
+    return NextResponse.json(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      { message: error?.message ?? "Une erreur est survenue" },
+      { status: 500 },
+    );
+  }
 };
 
 export default PUT;
