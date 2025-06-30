@@ -41,7 +41,7 @@ const POST = async (request: Request) => {
     const data = await client.applyChange(
       resourcesPath,
       resources,
-      `${user.email} added a new resource `,
+      `${user.email} added a new resource`,
       sha,
     );
 
