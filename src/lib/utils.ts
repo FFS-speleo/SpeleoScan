@@ -1,4 +1,4 @@
-import { JWTVerify } from "@/lib/jwt";
+import { JWTVerify } from "@/lib";
 import { User } from "@/types";
 
 export const protectAPIRoute = async (userJWT: string, users: User[]) => {
