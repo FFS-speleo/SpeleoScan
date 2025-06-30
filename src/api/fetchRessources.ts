@@ -1,9 +1,9 @@
 import { base64ToUtf8 } from "@/lib";
 import { GithubResponse, Ressource } from "@/types";
 
-export async function fetchRessources(): Promise<
+export const fetchRessources = async (): Promise<
   Partial<GithubResponse> & { resources: Ressource[] }
-> {
+> => {
   const {
     GITHUB_API_URL: baseUrl,
     GITHUB_REPO_OWNER: owner,
@@ -21,7 +21,7 @@ export async function fetchRessources(): Promise<
       },
       next: {
         revalidate: 60 * 60 * 24,
-        tags: ["qr_code_ressources"],
+        tags: ["qr_code_resources"],
       },
     },
   );
@@ -36,4 +36,4 @@ export async function fetchRessources(): Promise<
     ...data,
     resources: JSON.parse(base64ToUtf8(data.content)) as Ressource[],
   } as Partial<GithubResponse> & { resources: Ressource[] };
-}
+};
