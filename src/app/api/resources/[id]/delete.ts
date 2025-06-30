@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import GithubClient from "@/lib/GithubClient";
 import { fetchRessources, fetchUsers } from "@/api";
-import { protectAPIRoute } from "@/lib";
+import { protectAPIRoute, GithubClient } from "@/lib";
 
 const DELETE = async (
   request: NextRequest,
@@ -43,7 +42,7 @@ const DELETE = async (
     return NextResponse.json(
       {
         data,
-        message: `Ressource ${resourceId} supprimé avec succès`,
+        message: `Ressource ${resourceId} supprimée avec succès`,
       },
       { status: 200 },
     );

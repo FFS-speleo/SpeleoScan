@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isResource, protectAPIRoute, validateBody } from "@/lib";
+import { isResource, protectAPIRoute, validateBody, GithubClient } from "@/lib";
 import { fetchRessources, fetchUsers } from "@/api";
-import GithubClient from "@/lib/GithubClient";
 
 const PUT = async (
   request: NextRequest,

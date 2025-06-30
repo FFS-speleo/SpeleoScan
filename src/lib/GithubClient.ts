@@ -1,4 +1,4 @@
-import { utf8ToBase64 } from "@/lib/base64ToUTF8";
+import { utf8ToBase64 } from "@/lib";
 
 class GithubClient {
   private readonly token: string | undefined;
@@ -11,6 +11,10 @@ class GithubClient {
     this.baseUrl = process.env.GITHUB_API_URL;
     this.repoName = process.env.GITHUB_REPO_DATABASE_NAME;
     this.token = process.env.GITHUB_API_TOKEN;
+
+    if (!this.owner || !this.baseUrl || !this.repoName || !this.token) {
+      throw new Error("Missing required GitHub environment variables.");
+    }
   }
 
   async applyChange(
@@ -35,6 +39,10 @@ class GithubClient {
         }),
       },
     );
+
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
 
     return res.json();
   }

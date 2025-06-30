@@ -1,7 +1,6 @@
 import { fetchRessources, fetchUsers } from "@/api";
-import { protectAPIRoute, validateBody, isResource } from "@/lib";
+import { protectAPIRoute, validateBody, isResource, GithubClient } from "@/lib";
 import { NextResponse } from "next/server";
-import GithubClient from "@/lib/GithubClient";
 
 const POST = async (request: Request) => {
   let body: unknown;
