@@ -5,7 +5,7 @@ const COOKIE_NAME =
   process.env.NEXT_PUBLIC_COOKIE_TOKEN_NAME ?? "FFS-QR-CODE-ADMIN-TOKEN";
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-export async function middleware(req: NextRequest) {
+export const middleware = async (req: NextRequest) => {
   const pathname = req.nextUrl.pathname;
   const token = req.cookies.get(COOKIE_NAME)?.value;
 
@@ -35,4 +35,4 @@ export async function middleware(req: NextRequest) {
   }
 
   return NextResponse.next();
-}
+};
