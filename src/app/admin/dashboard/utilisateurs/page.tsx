@@ -10,7 +10,6 @@ const UtilisateursPage = async () => {
         <h1 className="text-3xl font-bold">Gestion des Utilisateurs</h1>
       </div>
 
-      {/* <UsersTableOrganism users={users} onAdd={handleAdd} onEdit={handleEdit} onDelete={handleDelete} /> */}
       <UsersTableOrganism users={users} />
     </div>
   );

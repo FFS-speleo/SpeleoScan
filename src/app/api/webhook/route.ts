@@ -5,7 +5,7 @@ export const POST = async (request: Request) => {
 
   if (githubEvent === "push") {
     revalidateTag("qr_code_resources");
-    revalidateTag("users_list");
+    revalidateTag("qr_code_users");
   }
 
   return Response.json("Accepted", { status: 202 });

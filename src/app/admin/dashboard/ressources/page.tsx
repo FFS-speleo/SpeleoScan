@@ -10,7 +10,6 @@ const Ressources = async () => {
         <h1 className="text-3xl font-bold">Gestion des Ressources</h1>
       </div>
 
-      {/* <RessourcesTableOrganism ressources={ressources} onAdd={handleAdd} onEdit={handleEdit} onDelete={handleDelete} /> */}
       <RessourcesTableOrganism ressources={resources} />
     </div>
   );
