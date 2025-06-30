@@ -43,7 +43,7 @@ const PUT = async (
       { status: 404 },
     );
   }
-
+  body.id = resourceId;
   resources[resourceToChangeIndex] = {
     ...body,
   };
