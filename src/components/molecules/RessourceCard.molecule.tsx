@@ -18,15 +18,30 @@ const RessourceCard: React.FC<RessourceCardProps> = ({ ressource }) => (
               <FileText className="h-6 w-6 text-primary" />
             </div>
             <div>
-              <h3 className="card-title text-lg font-bold text-base-content">{ressource.title}</h3>
-              <div className="flex gap-2 mt-1">{ressource.page && <div className="badge badge-secondary badge-sm">Page {ressource.page}</div>}</div>
+              <h3 className="card-title text-lg font-bold text-base-content">
+                {ressource.title}
+              </h3>
+              <div className="flex gap-2 mt-1">
+                {ressource.page && (
+                  <div className="badge badge-secondary badge-sm">
+                    Page {ressource.page}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
-          <p className="text-base-content/80 mb-4 leading-relaxed">{ressource.description}</p>
+          <p className="text-base-content/80 mb-4 leading-relaxed">
+            {ressource.description}
+          </p>
 
           <div className="card-actions justify-start">
-            <a href={ressource.url} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm btn-outline">
+            <a
+              href={ressource.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary btn-sm btn-outline"
+            >
               Consulter
               <ExternalLink size={14} className="ml-1" />
             </a>
@@ -37,7 +52,9 @@ const RessourceCard: React.FC<RessourceCardProps> = ({ ressource }) => (
         <div className="flex-shrink-0">
           <div className="w-24 h-24 bg-base-300 border-2 border-dashed border-base-content/20 rounded-lg flex items-center justify-center">
             <div className="text-center">
-              <div className="text-xs text-base-content/60 font-medium">QR Code</div>
+              <div className="text-xs text-base-content/60 font-medium">
+                QR Code
+              </div>
               <div className="text-xs text-base-content/40 mt-1">Bientôt</div>
             </div>
           </div>
