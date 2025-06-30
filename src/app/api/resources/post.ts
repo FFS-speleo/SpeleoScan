@@ -7,7 +7,10 @@ const POST = async (request: Request) => {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ message: "Invalid or missing JSON body" }, { status: 400 });
+    return NextResponse.json(
+      { message: "Invalid or missing JSON body" },
+      { status: 400 },
+    );
   }
 
   if (!validateBody(body, isResource)) {
@@ -35,21 +38,26 @@ const POST = async (request: Request) => {
 
   const client = new GithubClient();
   try {
-    const data = await client.applyChange(resourcesPath, resources, `${user.email} added a new resource`, sha);
+    const data = await client.applyChange(
+      resourcesPath,
+      resources,
+      `${user.email} added a new resource`,
+      sha,
+    );
 
     return NextResponse.json(
       {
         data,
         message: `Ressource créé avec succès`,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       { message: error?.message ?? "Une erreur est survenue" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };

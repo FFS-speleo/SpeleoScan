@@ -12,9 +12,12 @@ interface ApiResponse {
 const getAuthToken = (): string | null => {
   if (typeof document === "undefined") return null;
 
-  const tokenName = process.env.NEXT_PUBLIC_COOKIE_TOKEN_NAME || "FFS-QR-CODE-ADMIN-TOKEN";
+  const tokenName =
+    process.env.NEXT_PUBLIC_COOKIE_TOKEN_NAME || "FFS-QR-CODE-ADMIN-TOKEN";
   const cookies = document.cookie.split(";");
-  const tokenCookie = cookies.find((cookie) => cookie.trim().startsWith(`${tokenName}=`));
+  const tokenCookie = cookies.find((cookie) =>
+    cookie.trim().startsWith(`${tokenName}=`),
+  );
 
   return tokenCookie ? tokenCookie.split("=")[1] : null;
 };
@@ -28,7 +31,9 @@ const createAuthHeaders = (): HeadersInit => {
   };
 };
 
-export const createUser = async (userData: Omit<User, "id">): Promise<ApiResponse> => {
+export const createUser = async (
+  userData: Omit<User, "id">,
+): Promise<ApiResponse> => {
   try {
     const response = await fetch(API_BASE, {
       method: "POST",
@@ -39,7 +44,9 @@ export const createUser = async (userData: Omit<User, "id">): Promise<ApiRespons
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.message || "Erreur lors de la création de l'utilisateur");
+      throw new Error(
+        result.message || "Erreur lors de la création de l'utilisateur",
+      );
     }
 
     return result;
@@ -58,7 +65,9 @@ export const deleteUser = async (userId: string): Promise<ApiResponse> => {
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.message || "Erreur lors de la suppression de l'utilisateur");
+      throw new Error(
+        result.message || "Erreur lors de la suppression de l'utilisateur",
+      );
     }
 
     return result;

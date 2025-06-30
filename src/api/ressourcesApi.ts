@@ -12,9 +12,12 @@ interface ApiResponse {
 const getAuthToken = (): string | null => {
   if (typeof document === "undefined") return null;
 
-  const tokenName = process.env.NEXT_PUBLIC_COOKIE_TOKEN_NAME || "FFS-QR-CODE-ADMIN-TOKEN";
+  const tokenName =
+    process.env.NEXT_PUBLIC_COOKIE_TOKEN_NAME || "FFS-QR-CODE-ADMIN-TOKEN";
   const cookies = document.cookie.split(";");
-  const tokenCookie = cookies.find((cookie) => cookie.trim().startsWith(`${tokenName}=`));
+  const tokenCookie = cookies.find((cookie) =>
+    cookie.trim().startsWith(`${tokenName}=`),
+  );
 
   return tokenCookie ? tokenCookie.split("=")[1] : null;
 };
@@ -28,7 +31,9 @@ const createAuthHeaders = (): HeadersInit => {
   };
 };
 
-export const createRessource = async (ressourceData: Omit<Ressource, "id">): Promise<ApiResponse> => {
+export const createRessource = async (
+  ressourceData: Omit<Ressource, "id">,
+): Promise<ApiResponse> => {
   try {
     const response = await fetch(API_BASE, {
       method: "POST",
@@ -39,7 +44,9 @@ export const createRessource = async (ressourceData: Omit<Ressource, "id">): Pro
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.message || "Erreur lors de la création de la ressource");
+      throw new Error(
+        result.message || "Erreur lors de la création de la ressource",
+      );
     }
 
     return result;
@@ -48,7 +55,10 @@ export const createRessource = async (ressourceData: Omit<Ressource, "id">): Pro
   }
 };
 
-export const updateRessource = async (ressourceId: string, ressourceData: Omit<Ressource, "id">): Promise<ApiResponse> => {
+export const updateRessource = async (
+  ressourceId: string,
+  ressourceData: Omit<Ressource, "id">,
+): Promise<ApiResponse> => {
   try {
     const response = await fetch(`${API_BASE}/${ressourceId}`, {
       method: "PUT",
@@ -59,7 +69,9 @@ export const updateRessource = async (ressourceId: string, ressourceData: Omit<R
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.message || "Erreur lors de la modification de la ressource");
+      throw new Error(
+        result.message || "Erreur lors de la modification de la ressource",
+      );
     }
 
     return result;
@@ -68,7 +80,9 @@ export const updateRessource = async (ressourceId: string, ressourceData: Omit<R
   }
 };
 
-export const deleteRessource = async (ressourceId: string): Promise<ApiResponse> => {
+export const deleteRessource = async (
+  ressourceId: string,
+): Promise<ApiResponse> => {
   try {
     const response = await fetch(`${API_BASE}/${ressourceId}`, {
       method: "DELETE",
@@ -78,7 +92,9 @@ export const deleteRessource = async (ressourceId: string): Promise<ApiResponse>
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.message || "Erreur lors de la suppression de la ressource");
+      throw new Error(
+        result.message || "Erreur lors de la suppression de la ressource",
+      );
     }
 
     return result;

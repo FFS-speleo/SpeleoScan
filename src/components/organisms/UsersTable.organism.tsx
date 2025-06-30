@@ -46,7 +46,8 @@ const UsersTable: React.FC<UsersTableProps> = ({ users: initialUsers }) => {
       // Rafraîchir la page pour obtenir les données mises à jour
       window.location.reload();
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Erreur lors de la création";
+      const errorMessage =
+        error instanceof Error ? error.message : "Erreur lors de la création";
       Toastify({
         text: errorMessage,
         backgroundColor: "#ef4444",
@@ -82,7 +83,10 @@ const UsersTable: React.FC<UsersTableProps> = ({ users: initialUsers }) => {
       // Rafraîchir la page pour obtenir les données mises à jour
       window.location.reload();
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Erreur lors de la suppression";
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Erreur lors de la suppression";
       Toastify({
         text: errorMessage,
         backgroundColor: "#ef4444",
@@ -108,7 +112,11 @@ const UsersTable: React.FC<UsersTableProps> = ({ users: initialUsers }) => {
         <div className="card-body">
           <div className="flex justify-between items-center mb-4">
             <h2 className="card-title">Utilisateurs</h2>
-            <ButtonAtom variant="primary" onClick={handleAdd} disabled={isLoading}>
+            <ButtonAtom
+              variant="primary"
+              onClick={handleAdd}
+              disabled={isLoading}
+            >
               <Plus size={16} className="mr-2" />
               Nouvel utilisateur
             </ButtonAtom>
@@ -128,7 +136,12 @@ const UsersTable: React.FC<UsersTableProps> = ({ users: initialUsers }) => {
                     <td>{user.email}</td>
                     <td>
                       <div className="flex space-x-2">
-                        <ButtonAtom variant="error" size="sm" onClick={() => handleDeleteClick(user)} disabled={isLoading}>
+                        <ButtonAtom
+                          variant="error"
+                          size="sm"
+                          onClick={() => handleDeleteClick(user)}
+                          disabled={isLoading}
+                        >
                           <Trash2 size={14} />
                         </ButtonAtom>
                       </div>
@@ -141,21 +154,46 @@ const UsersTable: React.FC<UsersTableProps> = ({ users: initialUsers }) => {
         </div>
       </div>
 
-      <ModalMolecule isOpen={isModalOpen} onClose={handleCancel} title={"Nouvel utilisateur"} size="md">
-        <UserFormMolecule user={editingUser || undefined} onSubmit={handleSubmit} onCancel={handleCancel} />
+      <ModalMolecule
+        isOpen={isModalOpen}
+        onClose={handleCancel}
+        title={"Nouvel utilisateur"}
+        size="md"
+      >
+        <UserFormMolecule
+          user={editingUser || undefined}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+        />
       </ModalMolecule>
 
-      <ModalMolecule isOpen={isDeleteModalOpen} onClose={handleCancelDelete} title="Confirmer la suppression" size="sm">
+      <ModalMolecule
+        isOpen={isDeleteModalOpen}
+        onClose={handleCancelDelete}
+        title="Confirmer la suppression"
+        size="sm"
+      >
         <div className="space-y-4">
           <p className="text-base-content">
-            Êtes-vous sûr de vouloir supprimer l&apos;utilisateur <strong>{userToDelete?.email}</strong> ?
+            Êtes-vous sûr de vouloir supprimer l&apos;utilisateur{" "}
+            <strong>{userToDelete?.email}</strong> ?
           </p>
-          <p className="text-sm text-base-content/70">Cette action est irréversible.</p>
+          <p className="text-sm text-base-content/70">
+            Cette action est irréversible.
+          </p>
           <div className="flex justify-end space-x-2 pt-4">
-            <ButtonAtom variant="secondary" onClick={handleCancelDelete} disabled={isLoading}>
+            <ButtonAtom
+              variant="secondary"
+              onClick={handleCancelDelete}
+              disabled={isLoading}
+            >
               Annuler
             </ButtonAtom>
-            <ButtonAtom variant="error" onClick={handleConfirmDelete} disabled={isLoading}>
+            <ButtonAtom
+              variant="error"
+              onClick={handleConfirmDelete}
+              disabled={isLoading}
+            >
               {isLoading ? "Suppression..." : "Supprimer"}
             </ButtonAtom>
           </div>

@@ -8,7 +8,10 @@ export const POST = async (request: NextRequest) => {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ message: "Invalid or missing JSON body" }, { status: 400 });
+    return NextResponse.json(
+      { message: "Invalid or missing JSON body" },
+      { status: 400 },
+    );
   }
 
   if (!validateBody(body, isUser)) {
@@ -30,28 +33,36 @@ export const POST = async (request: NextRequest) => {
   }
   body.password = await bcrypt.hash(body.password, 10);
   if (users.findIndex(({ email }) => email === body.email) !== -1) {
-    return NextResponse.json({ message: "L'utilisateur existe déjà" }, { status: 400 });
+    return NextResponse.json(
+      { message: "L'utilisateur existe déjà" },
+      { status: 400 },
+    );
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   Array.isArray(users) ? users.push(body) : (users = [body]);
 
   const client = new GithubClient();
   try {
-    const data = await client.applyChange(usersPath, users, `${user.email} added a new user`, sha);
+    const data = await client.applyChange(
+      usersPath,
+      users,
+      `${user.email} added a new user`,
+      sha,
+    );
 
     return NextResponse.json(
       {
         data,
         message: `Utilisateur créé avec succès`,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       { message: error?.message ?? "Une erreur est survenue" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };
