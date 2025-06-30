@@ -17,12 +17,7 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
     if (!searchTerm.trim()) return ressources;
 
     const term = searchTerm.toLowerCase();
-    return ressources.filter(
-      (ressource) =>
-        ressource.title.toLowerCase().includes(term) ||
-        ressource.page.toString().includes(term) ||
-        ressource.description.toLowerCase().includes(term),
-    );
+    return ressources.filter((ressource) => ressource.title.toLowerCase().includes(term) || ressource.page?.toString().includes(term) || ressource.description?.toLowerCase().includes(term));
   }, [ressources, searchTerm]);
 
   return (
@@ -34,22 +29,13 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
             <BookOpen className="h-8 w-8 text-primary" />
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-base-content">
-              Sommaire des Ressources
-            </h1>
-            <p className="text-base-content/70 text-lg mt-2">
-              Explorez notre collection de documents spéléologiques
-            </p>
+            <h1 className="text-4xl font-bold text-base-content">Sommaire des Ressources</h1>
+            <p className="text-base-content/70 text-lg mt-2">Explorez notre collection de documents spéléologiques</p>
           </div>
         </div>
 
         <div className="max-w-2xl mx-auto">
-          <SearchInputAtom
-            value={searchTerm}
-            onChange={setSearchTerm}
-            placeholder="Rechercher par titre, page ou description..."
-            className="input-lg"
-          />
+          <SearchInputAtom value={searchTerm} onChange={setSearchTerm} placeholder="Rechercher par titre, page ou description..." className="input-lg" />
         </div>
       </div>
 
@@ -69,12 +55,8 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
             <Search size={32} />
           </div>
           <div className="stat-title">Résultats trouvés</div>
-          <div className="stat-value text-secondary">
-            {filteredRessources.length}
-          </div>
-          <div className="stat-desc">
-            {searchTerm ? `Pour "${searchTerm}"` : "Tous les documents"}
-          </div>
+          <div className="stat-value text-secondary">{filteredRessources.length}</div>
+          <div className="stat-desc">{searchTerm ? `Pour "${searchTerm}"` : "Tous les documents"}</div>
         </div>
       </div>
 
@@ -90,19 +72,10 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
           <div className="p-4 bg-base-200 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
             <Search className="h-10 w-10 text-base-content/50" />
           </div>
-          <h3 className="text-xl font-semibold text-base-content mb-2">
-            Aucune ressource trouvée
-          </h3>
-          <p className="text-base-content/70">
-            {searchTerm
-              ? `Aucun résultat pour "${searchTerm}". Essayez avec d'autres mots-clés.`
-              : "Aucune ressource disponible pour le moment."}
-          </p>
+          <h3 className="text-xl font-semibold text-base-content mb-2">Aucune ressource trouvée</h3>
+          <p className="text-base-content/70">{searchTerm ? `Aucun résultat pour "${searchTerm}". Essayez avec d'autres mots-clés.` : "Aucune ressource disponible pour le moment."}</p>
           {searchTerm && (
-            <button
-              onClick={() => setSearchTerm("")}
-              className="btn btn-primary btn-sm mt-4"
-            >
+            <button onClick={() => setSearchTerm("")} className="btn btn-primary btn-sm mt-4">
               Effacer la recherche
             </button>
           )}

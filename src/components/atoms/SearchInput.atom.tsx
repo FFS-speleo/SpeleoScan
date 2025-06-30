@@ -1,8 +1,5 @@
 "use client";
 
-import { Search } from "lucide-react";
-import { cn } from "@/lib/utils";
-
 interface SearchInputProps {
   value: string;
   onChange: (value: string) => void;
@@ -10,26 +7,17 @@ interface SearchInputProps {
   className?: string;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({
-  value,
-  onChange,
-  placeholder = "Rechercher...",
-  className,
-}) => (
-  <div className="relative">
-    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-      <Search className="h-5 w-5 text-base-content/50" />
-    </div>
-    <input
-      type="text"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder={placeholder}
-      className={cn(
-        "input input-bordered w-full pl-10 bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent",
-        className,
-      )}
-    />
+const SearchInput: React.FC<SearchInputProps> = ({ value, onChange, placeholder = "Rechercher..." }) => (
+  <div className="flex items-center w-full">
+    <label className="input w-full">
+      <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </g>
+      </svg>
+      <input type="search" className="grow" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} />
+    </label>
   </div>
 );
 

@@ -1,4 +1,4 @@
-import { fetchUsers } from "@/api/fetchUsers";
+import { fetchUsers } from "@/api";
 import * as bcrypt from "bcrypt";
 import { SignJWT } from "jose";
 import { NextRequest, NextResponse } from "next/server";

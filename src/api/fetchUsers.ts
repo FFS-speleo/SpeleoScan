@@ -1,9 +1,9 @@
 import { base64ToUtf8 } from "@/lib";
 import { GithubResponse, User } from "@/types";
 
-export async function fetchUsers(): Promise<
+export const fetchUsers = async (): Promise<
   Partial<GithubResponse> & { users: User[] }
-> {
+> => {
   const {
     GITHUB_API_URL: baseUrl,
     GITHUB_REPO_OWNER: owner,
@@ -36,4 +36,4 @@ export async function fetchUsers(): Promise<
     ...data,
     users: JSON.parse(base64ToUtf8(data.content)) as User[],
   } as Partial<GithubResponse> & { users: User[] };
-}
+};
