@@ -20,7 +20,9 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
     onSubmit(formData);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -30,7 +32,15 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <InputAtom label="Email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="email@exemple.com" />
+      <InputAtom
+        label="Email"
+        name="email"
+        type="email"
+        value={formData.email}
+        onChange={handleChange}
+        required
+        placeholder="email@exemple.com"
+      />
 
       <div className="flex justify-end space-x-2 pt-4">
         <ButtonAtom variant="secondary" onClick={onCancel}>

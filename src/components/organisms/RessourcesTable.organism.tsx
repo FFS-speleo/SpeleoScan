@@ -14,11 +14,20 @@ interface RessourcesTableProps {
   onDelete: (id: string) => void;
 }
 
-const RessourcesTable: React.FC<RessourcesTableProps> = ({ ressources, onAdd, onEdit, onDelete }) => {
+const RessourcesTable: React.FC<RessourcesTableProps> = ({
+  ressources,
+  onAdd,
+  onEdit,
+  onDelete,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingRessource, setEditingRessource] = useState<Ressource | null>(null);
+  const [editingRessource, setEditingRessource] = useState<Ressource | null>(
+    null,
+  );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [ressourceToDelete, setRessourceToDelete] = useState<Ressource | null>(null);
+  const [ressourceToDelete, setRessourceToDelete] = useState<Ressource | null>(
+    null,
+  );
 
   const handleAdd = () => {
     setEditingRessource(null);
@@ -89,19 +98,34 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({ ressources, onAdd, on
                 {ressources.map((ressource) => (
                   <tr key={ressource.id}>
                     <td className="font-medium">{ressource.title}</td>
-                    <td className="max-w-xs truncate">{ressource.description}</td>
+                    <td className="max-w-xs truncate">
+                      {ressource.description}
+                    </td>
                     <td>{ressource.page}</td>
                     <td>
-                      <a href={ressource.url} target="_blank" rel="noopener noreferrer" className="btn btn-ghost btn-sm">
+                      <a
+                        href={ressource.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-ghost btn-sm"
+                      >
                         <ExternalLink size={14} />
                       </a>
                     </td>
                     <td>
                       <div className="flex space-x-2">
-                        <ButtonAtom variant="secondary" size="sm" onClick={() => handleEdit(ressource)}>
+                        <ButtonAtom
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => handleEdit(ressource)}
+                        >
                           <Edit size={14} />
                         </ButtonAtom>
-                        <ButtonAtom variant="error" size="sm" onClick={() => handleDeleteClick(ressource)}>
+                        <ButtonAtom
+                          variant="error"
+                          size="sm"
+                          onClick={() => handleDeleteClick(ressource)}
+                        >
                           <Trash2 size={14} />
                         </ButtonAtom>
                       </div>
@@ -114,16 +138,35 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({ ressources, onAdd, on
         </div>
       </div>
 
-      <ModalMolecule isOpen={isModalOpen} onClose={handleCancel} title={editingRessource ? "Modifier la ressource" : "Nouvelle ressource"} size="md">
-        <RessourceFormMolecule ressource={editingRessource || undefined} onSubmit={handleSubmit} onCancel={handleCancel} />
+      <ModalMolecule
+        isOpen={isModalOpen}
+        onClose={handleCancel}
+        title={
+          editingRessource ? "Modifier la ressource" : "Nouvelle ressource"
+        }
+        size="md"
+      >
+        <RessourceFormMolecule
+          ressource={editingRessource || undefined}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+        />
       </ModalMolecule>
 
-      <ModalMolecule isOpen={isDeleteModalOpen} onClose={handleCancelDelete} title="Confirmer la suppression" size="sm">
+      <ModalMolecule
+        isOpen={isDeleteModalOpen}
+        onClose={handleCancelDelete}
+        title="Confirmer la suppression"
+        size="sm"
+      >
         <div className="space-y-4">
           <p className="text-base-content">
-            Êtes-vous sûr de vouloir supprimer la ressource <strong>{ressourceToDelete?.title}</strong> ?
+            Êtes-vous sûr de vouloir supprimer la ressource{" "}
+            <strong>{ressourceToDelete?.title}</strong> ?
           </p>
-          <p className="text-sm text-base-content/70">Cette action est irréversible.</p>
+          <p className="text-sm text-base-content/70">
+            Cette action est irréversible.
+          </p>
           <div className="flex justify-end space-x-2 pt-4">
             <ButtonAtom variant="secondary" onClick={handleCancelDelete}>
               Annuler

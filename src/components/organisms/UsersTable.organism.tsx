@@ -13,7 +13,12 @@ interface UsersTableProps {
   onDelete: (id: string) => void;
 }
 
-const UsersTable: React.FC<UsersTableProps> = ({ users, onAdd, onEdit, onDelete }) => {
+const UsersTable: React.FC<UsersTableProps> = ({
+  users,
+  onAdd,
+  onEdit,
+  onDelete,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -82,7 +87,11 @@ const UsersTable: React.FC<UsersTableProps> = ({ users, onAdd, onEdit, onDelete 
                     <td>{user.email}</td>
                     <td>
                       <div className="flex space-x-2">
-                        <ButtonAtom variant="error" size="sm" onClick={() => handleDeleteClick(user)}>
+                        <ButtonAtom
+                          variant="error"
+                          size="sm"
+                          onClick={() => handleDeleteClick(user)}
+                        >
                           <Trash2 size={14} />
                         </ButtonAtom>
                       </div>
@@ -95,16 +104,33 @@ const UsersTable: React.FC<UsersTableProps> = ({ users, onAdd, onEdit, onDelete 
         </div>
       </div>
 
-      <ModalMolecule isOpen={isModalOpen} onClose={handleCancel} title={"Nouvel utilisateur"} size="md">
-        <UserFormMolecule user={editingUser} onSubmit={handleSubmit} onCancel={handleCancel} />
+      <ModalMolecule
+        isOpen={isModalOpen}
+        onClose={handleCancel}
+        title={"Nouvel utilisateur"}
+        size="md"
+      >
+        <UserFormMolecule
+          user={editingUser}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+        />
       </ModalMolecule>
 
-      <ModalMolecule isOpen={isDeleteModalOpen} onClose={handleCancelDelete} title="Confirmer la suppression" size="sm">
+      <ModalMolecule
+        isOpen={isDeleteModalOpen}
+        onClose={handleCancelDelete}
+        title="Confirmer la suppression"
+        size="sm"
+      >
         <div className="space-y-4">
           <p className="text-base-content">
-            Êtes-vous sûr de vouloir supprimer l&apos;utilisateur <strong>{userToDelete?.email}</strong> ?
+            Êtes-vous sûr de vouloir supprimer l&apos;utilisateur{" "}
+            <strong>{userToDelete?.email}</strong> ?
           </p>
-          <p className="text-sm text-base-content/70">Cette action est irréversible.</p>
+          <p className="text-sm text-base-content/70">
+            Cette action est irréversible.
+          </p>
           <div className="flex justify-end space-x-2 pt-4">
             <ButtonAtom variant="secondary" onClick={handleCancelDelete}>
               Annuler
