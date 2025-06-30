@@ -41,7 +41,7 @@ class GithubClient {
     );
 
     if (!res.ok) {
-      throw new Error(res.statusText);
+      throw new Error(`${res.status} ${res.statusText}`);
     }
 
     return res.json();
