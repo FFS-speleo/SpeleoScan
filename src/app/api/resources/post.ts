@@ -53,7 +53,7 @@ const POST = async (request: Request) => {
       },
       body: JSON.stringify({
         content: utf8ToBase64(JSON.stringify(resources)),
-        message: `${user.email} added a new ressource`,
+        message: `${user.email} added a new resource`,
         sha: sha,
       }),
     },

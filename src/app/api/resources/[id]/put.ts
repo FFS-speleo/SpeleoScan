@@ -45,7 +45,7 @@ const PUT = async (
   );
   if (resourceToChangeIndex === -1) {
     return NextResponse.json(
-      { message: "Resource introuvable" },
+      { message: "Ressource introuvable" },
       { status: 404 },
     );
   }
@@ -66,7 +66,7 @@ const PUT = async (
       },
       body: JSON.stringify({
         content: utf8ToBase64(JSON.stringify(resources)),
-        message: `${user.email} edited ressource id: ${resourceId}`,
+        message: `${user.email} edited resource id: ${resourceId}`,
         sha: sha,
       }),
     },
