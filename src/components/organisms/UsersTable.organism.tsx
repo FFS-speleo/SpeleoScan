@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Edit, Trash2, Plus } from "lucide-react";
+import { Trash2, Plus } from "lucide-react";
 import { ButtonAtom } from "@/atoms";
 import { ModalMolecule } from "@/molecules";
 import { UserFormMolecule } from "@/molecules";
@@ -10,26 +10,17 @@ import { User } from "@/types";
 interface UsersTableProps {
   users: User[];
   onAdd: (user: Omit<User, "id">) => void;
-  onEdit: (id: string, user: Omit<User, "id">) => void;
   onDelete: (id: string) => void;
 }
 
-const UsersTable: React.FC<UsersTableProps> = ({
-  users,
-  onAdd,
-  onEdit,
-  onDelete,
-}) => {
+const UsersTable: React.FC<UsersTableProps> = ({ users, onAdd, onEdit, onDelete }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState<User | null>(null);
 
   const handleAdd = () => {
     setEditingUser(null);
-    setIsModalOpen(true);
-  };
-
-  const handleEdit = (user: User) => {
-    setEditingUser(user);
     setIsModalOpen(true);
   };
 
@@ -45,6 +36,24 @@ const UsersTable: React.FC<UsersTableProps> = ({
   const handleCancel = () => {
     setIsModalOpen(false);
     setEditingUser(null);
+  };
+
+  const handleDeleteClick = (user: User) => {
+    setUserToDelete(user);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (userToDelete) {
+      onDelete(userToDelete.id);
+    }
+    setIsDeleteModalOpen(false);
+    setUserToDelete(null);
+  };
+
+  const handleCancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setUserToDelete(null);
   };
 
   return (
@@ -63,31 +72,17 @@ const UsersTable: React.FC<UsersTableProps> = ({
             <table className="table table-zebra w-full">
               <thead>
                 <tr>
-                  <th>Nom</th>
                   <th>Email</th>
-                  <th>Rôle</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id}>
-                    <td className="font-medium">{user.name}</td>
                     <td>{user.email}</td>
                     <td>
                       <div className="flex space-x-2">
-                        <ButtonAtom
-                          variant="secondary"
-                          size="sm"
-                          onClick={() => handleEdit(user)}
-                        >
-                          <Edit size={14} />
-                        </ButtonAtom>
-                        <ButtonAtom
-                          variant="error"
-                          size="sm"
-                          onClick={() => onDelete(user.id)}
-                        >
+                        <ButtonAtom variant="error" size="sm" onClick={() => handleDeleteClick(user)}>
                           <Trash2 size={14} />
                         </ButtonAtom>
                       </div>
@@ -100,17 +95,25 @@ const UsersTable: React.FC<UsersTableProps> = ({
         </div>
       </div>
 
-      <ModalMolecule
-        isOpen={isModalOpen}
-        onClose={handleCancel}
-        title={editingUser ? "Modifier l'utilisateur" : "Nouvel utilisateur"}
-        size="md"
-      >
-        <UserFormMolecule
-          user={editingUser}
-          onSubmit={handleSubmit}
-          onCancel={handleCancel}
-        />
+      <ModalMolecule isOpen={isModalOpen} onClose={handleCancel} title={"Nouvel utilisateur"} size="md">
+        <UserFormMolecule user={editingUser} onSubmit={handleSubmit} onCancel={handleCancel} />
+      </ModalMolecule>
+
+      <ModalMolecule isOpen={isDeleteModalOpen} onClose={handleCancelDelete} title="Confirmer la suppression" size="sm">
+        <div className="space-y-4">
+          <p className="text-base-content">
+            Êtes-vous sûr de vouloir supprimer l&apos;utilisateur <strong>{userToDelete?.email}</strong> ?
+          </p>
+          <p className="text-sm text-base-content/70">Cette action est irréversible.</p>
+          <div className="flex justify-end space-x-2 pt-4">
+            <ButtonAtom variant="secondary" onClick={handleCancelDelete}>
+              Annuler
+            </ButtonAtom>
+            <ButtonAtom variant="error" onClick={handleConfirmDelete}>
+              Supprimer
+            </ButtonAtom>
+          </div>
+        </div>
       </ModalMolecule>
     </>
   );

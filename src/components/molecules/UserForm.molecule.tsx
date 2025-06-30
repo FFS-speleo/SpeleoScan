@@ -10,7 +10,7 @@ interface UserFormProps {
   onCancel: () => void;
 }
 
-const UserForm = ({ user, onSubmit, onCancel }: UserFormProps) => {
+const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
     email: user?.email || "",
   });
@@ -20,9 +20,7 @@ const UserForm = ({ user, onSubmit, onCancel }: UserFormProps) => {
     onSubmit(formData);
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -32,21 +30,7 @@ const UserForm = ({ user, onSubmit, onCancel }: UserFormProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <InputAtom
-        label="Email"
-        name="email"
-        type="email"
-        value={formData.email}
-        onChange={handleChange}
-        required
-        placeholder="email@exemple.com"
-      />
-
-      <div className="form-control w-full">
-        <label className="label">
-          <span className="label-text">Rôle</span>
-        </label>
-      </div>
+      <InputAtom label="Email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="email@exemple.com" />
 
       <div className="flex justify-end space-x-2 pt-4">
         <ButtonAtom variant="secondary" onClick={onCancel}>
