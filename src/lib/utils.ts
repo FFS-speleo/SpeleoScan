@@ -1,5 +1,7 @@
 import { JWTVerify } from "@/lib";
 import { User } from "@/types";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export const protectAPIRoute = async (userJWT: string, users: User[]) => {
   try {
@@ -20,3 +22,7 @@ export const validateBody = <T>(
 ): body is T => {
   return validator(body);
 };
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}

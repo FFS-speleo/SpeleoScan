@@ -21,7 +21,7 @@ export const fetchUsers = async (): Promise<
       },
       next: {
         revalidate: 60 * 60 * 24,
-        tags: ["users_list"],
+        tags: ["qr_code_users"],
       },
     },
   );

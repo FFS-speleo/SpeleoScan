@@ -8,7 +8,7 @@ const InputWithIconAtom: React.FC<InputWithIconProps> = ({
   onChange,
   icon,
 }) => (
-  <label className="input input-bordered flex items-center gap-2 mb-2">
+  <label className="input input-bordered flex items-center gap-2 mb-2 w-full">
     {icon}
     <input
       type={type}
