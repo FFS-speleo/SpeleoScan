@@ -18,11 +18,17 @@ class GithubClient {
   }
 
   async applyChange(
-    filePath: string | undefined,
+    filePath: string,
     dataToSend: object,
     commitMessage: string,
-    sha: string | undefined,
+    sha: string,
   ) {
+    if (!filePath || typeof filePath !== "string") {
+      throw new Error("Invalid or missing 'filePath'. It must be a non-empty string.");
+    }
+    if (!sha || typeof sha !== "string") {
+      throw new Error("Invalid or missing 'sha'. It must be a non-empty string.");
+    }
     const res = await fetch(
       `${this.baseUrl}/repos/${this.owner}/${this.repoName}/contents/${filePath}`,
       {
