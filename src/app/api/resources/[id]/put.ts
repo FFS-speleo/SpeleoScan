@@ -51,7 +51,6 @@ const PUT = async (
   }
 
   resources[resourceToChangeIndex] = {
-    ...resources[resourceToChangeIndex],
     ...body,
   };
 
