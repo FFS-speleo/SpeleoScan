@@ -21,7 +21,12 @@ const searchFieldLabels: Record<SearchField, string> = {
 
 const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedFields, setSelectedFields] = useState<SearchField[]>(["titre", "page", "description", "id"]);
+  const [selectedFields, setSelectedFields] = useState<SearchField[]>([
+    "titre",
+    "page",
+    "description",
+    "id",
+  ]);
 
   const filteredRessources = useMemo(() => {
     if (!searchTerm.trim()) return ressources;
@@ -39,11 +44,16 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
       }
 
       if (selectedFields.includes("description")) {
-        searchResults.push(ressource.description?.toLowerCase().includes(term) || false);
+        searchResults.push(
+          ressource.description?.toLowerCase().includes(term) || false,
+        );
       }
 
       if (selectedFields.includes("id")) {
-        searchResults.push(ressource.id.toLowerCase() === term || ressource.id.toLowerCase().includes(term));
+        searchResults.push(
+          ressource.id.toLowerCase() === term ||
+            ressource.id.toLowerCase().includes(term),
+        );
       }
 
       return searchResults.some(Boolean);
@@ -51,12 +61,17 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
   }, [ressources, searchTerm, selectedFields]);
 
   const handleFieldToggle = (field: SearchField) => {
-    setSelectedFields((prev) => (prev.includes(field) ? prev.filter((f) => f !== field) : [...prev, field]));
+    setSelectedFields((prev) =>
+      prev.includes(field) ? prev.filter((f) => f !== field) : [...prev, field],
+    );
   };
 
   const getPlaceholderText = () => {
-    if (selectedFields.length === 0) return "Sélectionnez au moins un champ de recherche";
-    const fields = selectedFields.map((field) => searchFieldLabels[field]).join(", ");
+    if (selectedFields.length === 0)
+      return "Sélectionnez au moins un champ de recherche";
+    const fields = selectedFields
+      .map((field) => searchFieldLabels[field])
+      .join(", ");
     return `Rechercher dans : ${fields}`;
   };
 
@@ -74,8 +89,12 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
             <BookOpen className="h-8 w-8 text-primary" />
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-base-content">Sommaire des Ressources</h1>
-            <p className="text-base-content/70 text-lg mt-2">Explorez notre collection de documents spéléologiques</p>
+            <h1 className="text-4xl font-bold text-base-content">
+              Sommaire des Ressources
+            </h1>
+            <p className="text-base-content/70 text-lg mt-2">
+              Explorez notre collection de documents spéléologiques
+            </p>
           </div>
         </div>
 
@@ -86,24 +105,42 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center space-x-2">
                   <Filter className="h-5 w-5 text-primary" />
-                  <span className="font-medium text-base-content">Champs de recherche :</span>
+                  <span className="font-medium text-base-content">
+                    Champs de recherche :
+                  </span>
                 </div>
-                <span className="text-sm text-base-content/60">{selectedFields.length}/4 sélectionnés</span>
+                <span className="text-sm text-base-content/60">
+                  {selectedFields.length}/4 sélectionnés
+                </span>
               </div>
 
               <div className="flex flex-wrap gap-2">
-                {(Object.keys(searchFieldLabels) as SearchField[]).map((field) => (
-                  <label key={field} className="cursor-pointer">
-                    <input type="checkbox" className="checkbox checkbox-primary checkbox-sm mr-2" checked={selectedFields.includes(field)} onChange={() => handleFieldToggle(field)} />
-                    <span className="text-sm">{searchFieldLabels[field]}</span>
-                  </label>
-                ))}
+                {(Object.keys(searchFieldLabels) as SearchField[]).map(
+                  (field) => (
+                    <label key={field} className="cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-primary checkbox-sm mr-2"
+                        checked={selectedFields.includes(field)}
+                        onChange={() => handleFieldToggle(field)}
+                      />
+                      <span className="text-sm">
+                        {searchFieldLabels[field]}
+                      </span>
+                    </label>
+                  ),
+                )}
               </div>
             </div>
           </div>
 
           {/* Barre de recherche */}
-          <SearchInputAtom value={searchTerm} onChange={setSearchTerm} placeholder={getPlaceholderText()} className="input-lg" />
+          <SearchInputAtom
+            value={searchTerm}
+            onChange={setSearchTerm}
+            placeholder={getPlaceholderText()}
+            className="input-lg"
+          />
         </div>
       </div>
 
@@ -123,8 +160,12 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
             <Search size={32} />
           </div>
           <div className="stat-title">Résultats trouvés</div>
-          <div className="stat-value text-secondary">{filteredRessources.length}</div>
-          <div className="stat-desc">{searchTerm ? `Pour "${searchTerm}"` : "Tous les documents"}</div>
+          <div className="stat-value text-secondary">
+            {filteredRessources.length}
+          </div>
+          <div className="stat-desc">
+            {searchTerm ? `Pour "${searchTerm}"` : "Tous les documents"}
+          </div>
         </div>
       </div>
 
@@ -140,10 +181,19 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
           <div className="p-4 bg-base-200 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
             <Search className="h-10 w-10 text-base-content/50" />
           </div>
-          <h3 className="text-xl font-semibold text-base-content mb-2">Aucune ressource trouvée</h3>
-          <p className="text-base-content/70">{searchTerm ? `Aucun résultat pour "${searchTerm}". Essayez avec d'autres mots-clés.` : "Aucune ressource disponible pour le moment."}</p>
+          <h3 className="text-xl font-semibold text-base-content mb-2">
+            Aucune ressource trouvée
+          </h3>
+          <p className="text-base-content/70">
+            {searchTerm
+              ? `Aucun résultat pour "${searchTerm}". Essayez avec d'autres mots-clés.`
+              : "Aucune ressource disponible pour le moment."}
+          </p>
           {searchTerm && (
-            <button onClick={handleClearSearch} className="btn btn-primary btn-sm mt-4">
+            <button
+              onClick={handleClearSearch}
+              className="btn btn-primary btn-sm mt-4"
+            >
               Effacer la recherche
             </button>
           )}
