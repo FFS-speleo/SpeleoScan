@@ -57,13 +57,12 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({
           position: "right",
         }).showToast();
 
-        setResources((prev) =>
-          prev.map((r) =>
-            r.id === editingRessource.id ? { ...r, ...ressourceData } : r,
-          ),
-        );
+        const temp = [...resources];
+        const index = resources.findIndex((r) => r.id === editingRessource.id);
+        temp[index] = { id: editingRessource.id, ...ressourceData };
+        setResources(temp);
       } else {
-        // Create mode
+        // Mode création
         response = await createRessource(ressourceData);
         Toastify({
           text: response.message || "Ressource créée avec succès",
@@ -109,7 +108,12 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({
         gravity: "top",
         position: "right",
       }).showToast();
-      setResources((prev) => prev.filter((r) => r.id !== ressourceToDelete.id));
+      const temp = [...resources];
+      temp.splice(
+        temp.findIndex((u) => u.id === ressourceToDelete.id),
+        1,
+      );
+      setResources([...temp]);
     } catch (error) {
       const errorMessage =
         error instanceof Error
