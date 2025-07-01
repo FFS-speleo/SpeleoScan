@@ -6,7 +6,7 @@ import Toastify from "toastify-js";
 import { ButtonAtom } from "@/atoms";
 import { ModalMolecule } from "@/molecules";
 import { RessourceFormMolecule } from "@/molecules";
-import { Ressource } from "@/types";
+import { ApiResponse, Ressource } from "@/types";
 import { createRessource, updateRessource, deleteRessource } from "@/api";
 
 interface RessourcesTableProps {
@@ -45,9 +45,9 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({
   const handleSubmit = async (ressourceData: Omit<Ressource, "id">) => {
     setIsLoading(true);
     try {
-      let response;
+      let response: ApiResponse;
       if (editingRessource) {
-        // Mode édition
+        // Edit mode
         response = await updateRessource(editingRessource.id, ressourceData);
         Toastify({
           text: response.message || "Ressource modifiée avec succès",
@@ -57,12 +57,13 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({
           position: "right",
         }).showToast();
 
-        const temp = [...resources];
-        const index = resources.findIndex((r) => r.id === editingRessource.id);
-        temp[index] = { id: editingRessource.id, ...ressourceData };
-        setResources(temp);
+        setResources((prev) =>
+          prev.map((r) =>
+            r.id === editingRessource.id ? { ...r, ...ressourceData } : r,
+          ),
+        );
       } else {
-        // Mode création
+        // Create mode
         response = await createRessource(ressourceData);
         Toastify({
           text: response.message || "Ressource créée avec succès",
@@ -71,7 +72,8 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({
           gravity: "top",
           position: "right",
         }).showToast();
-        setResources([...resources, ressourceData]);
+
+        setResources((prev) => [...prev, { id: "", ...ressourceData }]);
       }
     } catch (error) {
       const errorMessage =
@@ -107,12 +109,7 @@ const RessourcesTable: React.FC<RessourcesTableProps> = ({
         gravity: "top",
         position: "right",
       }).showToast();
-      const temp = [...resources];
-      temp.splice(
-        temp.findIndex((u) => u.id === ressourceToDelete.id),
-        1,
-      );
-      setResources([...temp]);
+      setResources((prev) => prev.filter((r) => r.id !== ressourceToDelete.id));
     } catch (error) {
       const errorMessage =
         error instanceof Error

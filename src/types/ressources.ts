@@ -24,3 +24,8 @@ export type Ressource = {
   page?: number;
   url: string;
 };
+
+export type ApiResponse = {
+  message: string;
+  data?: unknown;
+};
