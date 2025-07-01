@@ -14,7 +14,8 @@ interface RessourceCardProps {
 const RessourceCard: React.FC<RessourceCardProps> = ({ ressource }) => {
   const [qrSrc, setQrSrc] = useState<string>("");
   const pathname = usePathname();
-  const url = typeof window !== "undefined" ? `${window.location.origin}${pathname}` : "";
+  const url =
+    typeof window !== "undefined" ? `${window.location.origin}${pathname}` : "";
 
   useEffect(() => {
     async function fetchQr() {

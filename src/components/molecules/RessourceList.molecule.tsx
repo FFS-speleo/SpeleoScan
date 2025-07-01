@@ -14,8 +14,9 @@ interface RessourceCardProps {
 const RessourceCard: React.FC<RessourceCardProps> = ({ ressource }) => {
   const [qrSrc, setQrSrc] = useState<string>("");
   const pathname = usePathname();
-  const url = typeof window !== "undefined" ? `${window.location.origin}${pathname}` : "";
-  
+  const url =
+    typeof window !== "undefined" ? `${window.location.origin}${pathname}` : "";
+
   useEffect(() => {
     async function fetchQr() {
       const src = await getQrCodeFromId(ressource.id, url);
@@ -24,7 +25,7 @@ const RessourceCard: React.FC<RessourceCardProps> = ({ ressource }) => {
 
     fetchQr();
   }, [ressource.id]);
-  
+
   return (
     <div className="card bg-base-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.01]">
       <div className="card-body p-5">
@@ -71,31 +72,31 @@ const RessourceCard: React.FC<RessourceCardProps> = ({ ressource }) => {
               <ExternalLink size={14} className="ml-1" />
             </a>
             <button
-                className="btn btn-ghost btn-sm p-2 ml-2 bg-primary/10"
-                disabled={!qrSrc}
-                title="Télécharger le QR code"
-                onClick={() => {
-                  const link = document.createElement("a");
-                  link.href = qrSrc;
-                  link.download = `qr-${ressource.id}.png`;
-                  link.click();
-                }}
+              className="btn btn-ghost btn-sm p-2 ml-2 bg-primary/10"
+              disabled={!qrSrc}
+              title="Télécharger le QR code"
+              onClick={() => {
+                const link = document.createElement("a");
+                link.href = qrSrc;
+                link.download = `qr-${ressource.id}.png`;
+                link.click();
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="oklch(0.829 0.183 111.516)"
+                strokeWidth={2}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="oklch(0.829 0.183 111.516)"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"
-                  />
-                </svg>
-              </button>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
