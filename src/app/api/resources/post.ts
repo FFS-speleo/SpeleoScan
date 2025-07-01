@@ -1,5 +1,4 @@
 import { fetchRessources, fetchUsers } from "@/api";
-import { generateQrCode } from "@/api/qrCode";
 import { GithubClient, isResource, protectAPIRoute, validateBody } from "@/lib";
 import { NextResponse } from "next/server";
 
@@ -30,9 +29,6 @@ const POST = async (request: Request) => {
   if (!user) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
-
-  const publicUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
-  generateQrCode(body, publicUrl);
 
   // eslint-disable-next-line prefer-const
   let { resources, sha } = await fetchRessources();
