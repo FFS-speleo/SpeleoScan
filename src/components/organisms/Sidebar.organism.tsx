@@ -1,7 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Home, FileText, Users, Menu, X, GalleryVerticalEnd } from "lucide-react";
+import {
+  Home,
+  FileText,
+  Users,
+  Menu,
+  X,
+  GalleryVerticalEnd,
+} from "lucide-react";
 import { ButtonAtom } from "@/atoms";
 import { SidebarItemMolecule } from "@/molecules";
 
@@ -37,7 +44,12 @@ const Sidebar: React.FC = () => {
     <>
       {/* Mobile menu button */}
       <div className="md:hidden fixed top-4 left-4 z-50">
-        <ButtonAtom variant="secondary" size="sm" onClick={toggleSidebar} className="btn-square">
+        <ButtonAtom
+          variant="secondary"
+          size="sm"
+          onClick={toggleSidebar}
+          className="btn-square"
+        >
           {isOpen ? <X size={20} /> : <Menu size={20} />}
         </ButtonAtom>
       </div>
@@ -51,12 +63,19 @@ const Sidebar: React.FC = () => {
                 `}
       >
         <div className="p-6">
-          <h1 className="text-xl font-bold text-base-content mb-8">Admin Dashboard</h1>
+          <h1 className="text-xl font-bold text-base-content mb-8">
+            Admin Dashboard
+          </h1>
 
           <nav>
             <ul className="space-y-2">
               {menuItems.map((item) => (
-                <SidebarItemMolecule key={item.href} href={item.href} icon={item.icon} label={item.label} />
+                <SidebarItemMolecule
+                  key={item.href}
+                  href={item.href}
+                  icon={item.icon}
+                  label={item.label}
+                />
               ))}
             </ul>
           </nav>
@@ -64,7 +83,12 @@ const Sidebar: React.FC = () => {
       </aside>
 
       {/* Overlay for mobile */}
-      {isOpen && <div className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden" onClick={toggleSidebar} />}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
     </>
   );
 };
