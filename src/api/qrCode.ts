@@ -1,13 +1,18 @@
 import path from "path";
 import QRCode from "qrcode";
 
-const { PUBLIC_URL: publicUrl } = process.env;
+export async function getQrCodeFromId(
+  id: string,
+  url: string,
+): Promise<string> {
+  const regex = /^(https?:\/\/[^\/]+)/;
+  const publicUrl = url.match(regex)![1];
+  console.log(publicUrl);
 
-export function getQrCodeFromId(id: string): string {
-  return `/ressource/${id}.png`;
+  return QRCode.toDataURL(`${publicUrl}/ressource/${id}`);
 }
 
-export async function generateQrCode(body: object) {
+export async function generateQrCode(body: object, publicUrl: string) {
   const id = body.id;
   const qrPath = path.join(process.cwd(), "public", "ressource", `${id}.png`);
   QRCode.toFile(qrPath, `${publicUrl}/ressource/${id}`);
