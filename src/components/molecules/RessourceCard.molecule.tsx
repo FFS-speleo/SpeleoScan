@@ -37,7 +37,7 @@ const RessourceCard: React.FC<RessourceCardProps> = ({ ressource }) => (
 
           <div className="card-actions justify-start">
             <a
-              href={ressource.url}
+              href={`/api/resources/${ressource.id}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-secondary btn-sm btn-outline"
