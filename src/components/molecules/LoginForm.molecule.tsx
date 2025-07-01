@@ -35,8 +35,10 @@ const LoginFormMolecule: React.FC = () => {
       );
       router.push("/admin/dashboard");
     } catch (e) {
+      const errorMessage =
+        e instanceof Error ? e.message : "Erreur lors de la connection";
       Toastify({
-        text: e?.message,
+        text: errorMessage,
         duration: 3000,
         style: { background: "#ff000d" },
       }).showToast();

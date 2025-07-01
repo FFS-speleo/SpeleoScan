@@ -3,14 +3,16 @@
 import React, { useState, useMemo } from "react";
 import { SearchInputAtom } from "@/atoms";
 import { RessourceCardMolecule } from "@/molecules";
+import { RessourceListMolecule } from "@/molecules";
 import { Ressource } from "@/types";
-import { Search, BookOpen, Filter } from "lucide-react";
+import { Search, BookOpen, Filter, Grid3X3, List } from "lucide-react";
 
 interface RessourcesListProps {
   ressources: Ressource[];
 }
 
 type SearchField = "titre" | "page" | "description" | "id";
+type ViewFormat = "grid" | "list";
 
 const searchFieldLabels: Record<SearchField, string> = {
   titre: "Titre",
@@ -21,6 +23,7 @@ const searchFieldLabels: Record<SearchField, string> = {
 
 const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [viewFormat, setViewFormat] = useState<ViewFormat>("grid");
   const [selectedFields, setSelectedFields] = useState<SearchField[]>([
     "titre",
     "page",
@@ -109,10 +112,7 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
                     Champs de recherche :
                   </span>
                 </div>
-                <span className="text-sm text-base-content/60">
-                  {selectedFields.length}/$
-                  {Object.keys(searchFieldLabels).length} sélectionnés
-                </span>
+                <span className="text-sm text-base-content/60">{`${selectedFields.length}/${Object.keys(searchFieldLabels).length} sélectionnés`}</span>
               </div>
 
               <div className="flex flex-wrap gap-2">
@@ -136,12 +136,31 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
           </div>
 
           {/* Barre de recherche */}
-          <SearchInputAtom
-            value={searchTerm}
-            onChange={setSearchTerm}
-            placeholder={getPlaceholderText()}
-            className="input-lg"
-          />
+          <div className="flex items-center justify-between flex-col md:flex-row">
+            <SearchInputAtom
+              value={searchTerm}
+              onChange={setSearchTerm}
+              placeholder={getPlaceholderText()}
+              className="input-lg"
+            />
+            {/* Boutons de format d'affichage */}
+            <div className="flex w-80  items-center justify-center space-x-2 md:justify-end mt-2 md:mt-0">
+              <button
+                className={`btn ${viewFormat === "grid" ? "btn-primary" : "btn-outline"}`}
+                onClick={() => setViewFormat("grid")}
+              >
+                <Grid3X3 className="h-4 w-4 mr-2" />
+                Cartes
+              </button>
+              <button
+                className={`btn ${viewFormat === "list" ? "btn-primary" : "btn-outline"}`}
+                onClick={() => setViewFormat("list")}
+              >
+                <List className="h-4 w-4 mr-2" />
+                Liste
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -172,11 +191,19 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
 
       {/* Liste des ressources */}
       {filteredRessources.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredRessources.map((ressource) => (
-            <RessourceCardMolecule key={ressource.id} ressource={ressource} />
-          ))}
-        </div>
+        viewFormat === "grid" ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredRessources.map((ressource) => (
+              <RessourceCardMolecule key={ressource.id} ressource={ressource} />
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {filteredRessources.map((ressource) => (
+              <RessourceListMolecule key={ressource.id} ressource={ressource} />
+            ))}
+          </div>
+        )
       ) : (
         <div className="text-center py-12">
           <div className="p-4 bg-base-200 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">

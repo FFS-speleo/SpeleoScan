@@ -1,12 +1,6 @@
-import { Ressource } from "@/types";
+import { ApiResponse, Ressource } from "@/types";
 
 const API_BASE = "/api/resources";
-
-// Type pour les réponses API
-interface ApiResponse {
-  message: string;
-  data?: unknown;
-}
 
 // Fonction utilitaire pour récupérer le token depuis les cookies
 const getAuthToken = (): string | null => {
@@ -32,7 +26,7 @@ const createAuthHeaders = (): HeadersInit => {
 };
 
 export const createRessource = async (
-  ressourceData: Omit<Ressource, "id">,
+  ressourceData: Partial<Ressource>,
 ): Promise<ApiResponse> => {
   try {
     const response = await fetch(API_BASE, {
@@ -57,7 +51,7 @@ export const createRessource = async (
 
 export const updateRessource = async (
   ressourceId: string,
-  ressourceData: Omit<Ressource, "id">,
+  ressourceData: Partial<Ressource>,
 ): Promise<ApiResponse> => {
   try {
     const response = await fetch(`${API_BASE}/${ressourceId}`, {

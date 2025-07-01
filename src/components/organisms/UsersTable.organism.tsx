@@ -45,7 +45,7 @@ const UsersTable: React.FC<UsersTableProps> = ({ users: initialUsers }) => {
         },
       }).showToast();
 
-      setUsers([...users, userData]);
+      setUsers([...users, { id: "", ...userData }]);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Erreur lors de la création";
