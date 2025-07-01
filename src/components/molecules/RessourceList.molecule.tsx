@@ -34,7 +34,7 @@ const RessourceCard: React.FC<RessourceCardProps> = ({ ressource }) => (
                 Page {ressource.page}
               </div>
             )}
-          </div>{" "}
+          </div>
         </div>
         <div className="flex-shrink-0 ml-4">
           <a
