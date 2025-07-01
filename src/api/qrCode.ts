@@ -7,7 +7,6 @@ export async function getQrCodeFromId(
 ): Promise<string> {
   const regex = /^(https?:\/\/[^\/]+)/;
   const publicUrl = url.match(regex)![1];
-  console.log(publicUrl);
 
   return QRCode.toDataURL(`${publicUrl}/ressource/${id}`);
 }

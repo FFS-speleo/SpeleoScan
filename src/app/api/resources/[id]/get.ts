@@ -11,7 +11,6 @@ const GET = async (
   const resourceToRedirect = resources.find(
     (resource) => resource.id === resourceId,
   );
-  console.log(resourceToRedirect);
   if (resourceToRedirect === undefined) {
     return NextResponse.json(
       { message: "Ressource introuvable" },
