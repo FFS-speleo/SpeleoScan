@@ -1,5 +1,4 @@
-import { fetchRessources, fetchUsers } from "@/api";
-import { protectAPIRoute } from "@/lib";
+import { fetchRessources } from "@/api";
 import { NextRequest, NextResponse } from "next/server";
 
 const GET = async (
@@ -8,17 +7,7 @@ const GET = async (
 ) => {
   const { id: resourceId } = await params;
 
-  const { users } = await fetchUsers();
-  const userJWT = request.headers.get("Authorization");
-
-  const user = (await protectAPIRoute(userJWT ?? "", users)) ?? null;
-
-  if (!user) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-
-  // eslint-disable-next-line prefer-const
-  let { resources } = await fetchRessources();
+  const { resources } = await fetchRessources();
   const resourceToRedirect = resources.find(
     (resource) => resource.id === resourceId,
   );
@@ -29,7 +18,7 @@ const GET = async (
     );
   }
 
-  return NextResponse.redirect(new URL(resourceToRedirect.url, request.url));
+  return NextResponse.redirect(new URL(resourceToRedirect.url));
 };
 
 export default GET;
