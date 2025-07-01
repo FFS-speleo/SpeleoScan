@@ -112,10 +112,7 @@ const RessourcesList: React.FC<RessourcesListProps> = ({ ressources }) => {
                     Champs de recherche :
                   </span>
                 </div>
-                <span className="text-sm text-base-content/60">
-                  {selectedFields.length}/$
-                  {Object.keys(searchFieldLabels).length} sélectionnés
-                </span>
+                <span className="text-sm text-base-content/60">{`${selectedFields.length}/${Object.keys(searchFieldLabels).length} sélectionnés`}</span>
               </div>
 
               <div className="flex flex-wrap gap-2">
