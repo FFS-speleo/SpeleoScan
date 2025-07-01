@@ -9,7 +9,8 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "SpeleoScan - Dashboard Administrateur",
-  description: "Tableau de bord pour la gestion des ressources QR code et des utilisateurs",
+  description:
+    "Tableau de bord pour la gestion des ressources QR code et des utilisateurs",
 };
 
 export default function RootLayout({
@@ -19,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} antialiased h-screen`}>{children}</body>
+      <body className={`${poppins.className} antialiased h-screen`}>
+        {children}
+      </body>
     </html>
   );
 }
