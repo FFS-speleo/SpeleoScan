@@ -11,7 +11,7 @@ export async function getQrCodeFromId(
   return QRCode.toDataURL(`${publicUrl}/ressource/${id}`);
 }
 
-export async function generateQrCode(body: object, publicUrl: string) {
+export async function generateQrCode(body: { id: string }, publicUrl: string) {
   const id = body.id;
   const qrPath = path.join(process.cwd(), "public", "ressource", `${id}.png`);
   QRCode.toFile(qrPath, `${publicUrl}/ressource/${id}`);

@@ -31,7 +31,8 @@ const POST = async (request: Request) => {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  generateQrCode(body);
+  const publicUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+  generateQrCode(body, publicUrl);
 
   // eslint-disable-next-line prefer-const
   let { resources, sha } = await fetchRessources();
