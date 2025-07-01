@@ -59,7 +59,7 @@ export const updateRessource = async (
       headers: createAuthHeaders(),
       body: JSON.stringify(ressourceData),
     });
-
+    console.log(response);
     const result = await response.json();
 
     if (!response.ok) {
@@ -78,6 +78,8 @@ export const deleteRessource = async (
   ressourceId: string,
 ): Promise<ApiResponse> => {
   try {
+    console.log(API_BASE);
+
     const response = await fetch(`${API_BASE}/${ressourceId}`, {
       method: "DELETE",
       headers: createAuthHeaders(),
