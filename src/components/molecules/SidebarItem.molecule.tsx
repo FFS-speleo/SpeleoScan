@@ -14,9 +14,7 @@ interface SidebarItemProps {
 
 const SidebarItem: React.FC<SidebarItemProps> = ({ href, icon, label }) => {
   const pathname = usePathname();
-  const isActive =
-    pathname === href ||
-    (href !== "/admin/dashboard" && pathname.startsWith(href + "/"));
+  const isActive = pathname === href || (href !== "/admin/dashboard" && pathname.startsWith(href + "/"));
 
   return (
     <li>
@@ -24,9 +22,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ href, icon, label }) => {
         href={href}
         className={cn(
           "flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200",
-          isActive
-            ? "bg-primary text-primary-content"
-            : "text-base-content hover:bg-base-300 hover:text-base-content",
+          isActive ? "bg-primary text-primary-content" : "text-base-content hover:bg-base-300 hover:text-base-content"
         )}
       >
         <span className="flex-shrink-0">{icon}</span>

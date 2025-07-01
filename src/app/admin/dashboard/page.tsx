@@ -11,10 +11,7 @@ const DashboardHomePage = async () => {
         <div className="hero-content text-center">
           <div className="max-w-md">
             <h1 className="text-5xl font-bold">Dashboard</h1>
-            <p className="py-6">
-              Bienvenue dans le tableau de bord administrateur. Gérez vos
-              ressources QR et utilisateurs facilement.
-            </p>
+            <p className="py-6">Bienvenue dans le tableau de bord administrateur. Gérez vos ressources QR et utilisateurs facilement.</p>
           </div>
         </div>
       </div>
@@ -25,9 +22,7 @@ const DashboardHomePage = async () => {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="card-title">Ressources QR</h2>
-                <p className="text-2xl font-bold text-primary">
-                  {resources.length}
-                </p>
+                <p className="text-2xl font-bold text-primary">{resources.length}</p>
               </div>
               <QrCode size={48} className="text-primary" />
             </div>
