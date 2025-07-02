@@ -18,7 +18,7 @@ export default function NotFound() {
 
         {/* Bouton de retour */}
         <div className="space-y-4">
-          <Link href="/sommaire" className="btn btn-secondary btn-lg">
+          <Link href="/" className="btn btn-secondary btn-lg">
             Sommaire{" "}
           </Link>
         </div>

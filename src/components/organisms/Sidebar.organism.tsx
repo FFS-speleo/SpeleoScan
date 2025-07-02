@@ -29,7 +29,7 @@ const menuItems = [
     label: "Utilisateurs",
   },
   {
-    href: "/sommaire",
+    href: "/",
     icon: <GalleryVerticalEnd size={20} />,
     label: "Sommaire",
   },
