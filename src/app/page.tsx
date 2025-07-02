@@ -1,16 +1,16 @@
-"use server";
 import { fetchRessources } from "@/api";
+import { RessourcesListOrganism } from "@/organisms";
 
-export default async function Page() {
+const Sommaire = async () => {
   const { resources } = await fetchRessources();
 
   return (
-    resources && (
-      <div className="flex flex-col h-full justify-center items-center p-4">
-        {resources.map((r) => (
-          <div key={r.id}>{r.title}</div>
-        ))}
+    <div className="min-h-screen bg-base-100">
+      <div className="container mx-auto px-4 py-8">
+        <RessourcesListOrganism ressources={resources} />
       </div>
-    )
+    </div>
   );
-}
+};
+
+export default Sommaire;
